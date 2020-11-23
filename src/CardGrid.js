@@ -23,9 +23,7 @@ export default function CardGrid(props) {
       <Grid container spacing={3}>
         {props.pokemonArray.map((p, i) => {
             return (
-            <Grid item xs={3}>
-                <PokemonCard key={i} pokemon={p} />
-            </Grid>
+                <PokemonCard key={i} count={i} pokemon={p} />
             )
         })}
       </Grid>

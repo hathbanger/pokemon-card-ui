@@ -29,8 +29,6 @@ export default function PokemonCard(props) {
   const fetchPokemon = () => {
     axios.get('https://pokeapi.co/api/v2/pokemon/'+props.pokemon.name)
       .then(function (response) {
-        console.log(props.pokemon.name, response.data)
-        // setPokemonArray(response.data.results)
         setPokemon(response.data)
       })
       .catch(function (error) {
@@ -38,34 +36,12 @@ export default function PokemonCard(props) {
       })
 }
 
-  console.log("pokemon card props", props)
+
+
+let pokeHeight = pokemon ? pokemon.height + "vh" : "10vh"
+
 
   return (
-    <Card className={classes.root}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image={pokemon && pokemon.sprites.other["official-artwork"].front_default}
-          title="Contemplative Reptile"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {props.pokemon.name}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
-      </CardActions>
-    </Card>
+    <img style={{position: "absolute", left: props.count + "vw", bottom: 0, height: pokeHeight, zIndex: pokemon ? -pokemon.height : 1 }} src={ pokemon && pokemon.sprites.other["official-artwork"].front_default} />
   );
 }

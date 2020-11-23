@@ -12,13 +12,19 @@ function App() {
   const [pokemonArray, setPokemonArray] = React.useState([])
 
   React.useEffect(() => {
-    fetchAllPokemon();
+    fetchAllPokemon(0);
   }, [])
 
-  const fetchAllPokemon = () => {
-      axios.get('https://pokeapi.co/api/v2/pokemon?limit=100')
+  const fetchAllPokemon = (offset) => {
+      axios.get('https://pokeapi.co/api/v2/pokemon?limit=20&offset='+offset )
         .then(function (response) {
-          setPokemonArray(response.data.results)
+
+          setPokemonArray(tempArray => [...tempArray, ...response.data.results])
+          let newOffset = offset + 20
+          if(offset <= 1500){
+            console.log("fetch again")
+            fetchAllPokemon(newOffset)
+          }
         })
         .catch(function (error) {
           console.log(error);
@@ -30,7 +36,7 @@ function App() {
       <CssBaseline />
       <Container maxWidth="lg">
         <Box m={3}>
-          {pokemonArray.length > 0 ? <CardGrid pokemonArray={pokemonArray} /> : null}
+          <CardGrid pokemonArray={pokemonArray} /> 
         </Box>
       </Container>
     </div>
