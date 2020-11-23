@@ -21,6 +21,8 @@ const useStyles = makeStyles({
 export default function PokemonCard(props) {
   const classes = useStyles();
   const [pokemon, setPokemon] = React.useState(null)
+  const [flavorText, setFlavorText] = React.useState("")
+
 
   React.useEffect(() => {
     fetchPokemon();
@@ -31,14 +33,23 @@ export default function PokemonCard(props) {
       .then(function (response) {
         console.log(props.pokemon.name, response.data)
         // setPokemonArray(response.data.results)
-        setPokemon(response.data)
+          setPokemon(response.data)
+          fetchSpecies(response.data.species.url)
       })
       .catch(function (error) {
         console.log(error);
       })
 }
-
-  console.log("pokemon card props", props)
+    const fetchSpecies = (speciesURL) => {
+        axios.get( speciesURL)
+            .then(function (response) {
+                setFlavorText(response.data.flavor_text_entries[0].flavor_text)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+  console.log("pokemon card props", pokemon)
 
   return (
     <Card className={classes.root}>
@@ -52,20 +63,19 @@ export default function PokemonCard(props) {
           <Typography gutterBottom variant="h5" component="h2">
             {props.pokemon.name}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
+          <Typography variant="h6" color="textSecondary" component="p">
+            {pokemon && pokemon.weight} lbs.
+
+          </Typography>
+          <Typography variant="subtitle1" color="textSecondary" component="p">
+            {pokemon && pokemon.height} ft.
+          </Typography>
+          <Typography  variant="subtitle2" color="textSecondary" component="p">
+            {flavorText}
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
-      </CardActions>
+      
     </Card>
   );
 }

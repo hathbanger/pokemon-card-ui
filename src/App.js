@@ -16,7 +16,7 @@ function App() {
   }, [])
 
   const fetchAllPokemon = () => {
-      axios.get('https://pokeapi.co/api/v2/pokemon?limit=100')
+      axios.get('https://pokeapi.co/api/v2/pokemon?limit=8')
         .then(function (response) {
           setPokemonArray(response.data.results)
         })
