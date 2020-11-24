@@ -131,60 +131,31 @@ export default function PokemonCard(props) {
     height: "40vh",
   };
 
-  const attackPokemon = () => {
-    let attackDamage = Math.ceil(Math.random() * 50);
-    setAttacking(true);
-    setPokemon({ ...pokemon, health: pokemon.health - attackDamage });
-  };
-
   React.useEffect(() => {
     const timer = setTimeout(() => {
       setAttacking(false);
     }, 550);
     return () => clearTimeout(timer);
   }, [attacking]);
-  console.log(pokemon);
 
   return (
-    <>
-      <img
-        style={props.me ? homeTeam : opponent}
-        className={clsx(
-          attacking
-            ? props.me
-              ? classes.attackOpponent
-              : classes.receiveDamage
-            : !props.me
-            ? classes.opponentAttack
+    <img
+      style={props.me ? homeTeam : opponent}
+      className={clsx(
+        attacking
+          ? props.me
+            ? classes.attackOpponent
             : classes.receiveDamage
-        )}
-        onClick={attackPokemon}
-        src={
-          pokemon &&
-          pokemon.sprites.versions["generation-v"]["black-white"].animated[
-            props.i === 0 ? "front_default" : "back_default"
-          ]
-        }
-      />
-      <h2 className={"name"} style={props.me ? homeTeam : opponent}>
-        {pokemon && pokemon.name}
-        <LinearProgressWithLabel value={pokemon && pokemon.health} />
-      </h2>
-    </>
-  );
-}
-
-function LinearProgressWithLabel(props) {
-  return (
-    <Box display="flex" alignItems="center">
-      <Box width="100%" mr={1}>
-        <LinearProgress variant="determinate" {...props} />
-      </Box>
-      <Box minWidth={35}>
-        <Typography variant="body2" color="textSecondary">{`${Math.round(
-          props.value
-        )}%`}</Typography>
-      </Box>
-    </Box>
+          : !props.me
+          ? classes.opponentAttack
+          : classes.receiveDamage
+      )}
+      src={
+        pokemon &&
+        pokemon.sprites.versions["generation-v"]["black-white"].animated[
+          props.i === 0 ? "front_default" : "back_default"
+        ]
+      }
+    />
   );
 }

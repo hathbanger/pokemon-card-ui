@@ -7,7 +7,8 @@ import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import PokemonCard from "./PokemonCard";
 
 function App() {
@@ -72,6 +73,18 @@ function App() {
 
   const bgSelectInt = Math.ceil(Math.random() * bgs.length - 1);
 
+  const statsContainer = {
+    position: "absolute",
+    border: "solid 2px black",
+    margin: 60,
+    padding: 20,
+    fontSize: "24px",
+    minWidth: "400px",
+    minHeight: "100px",
+    fontWeight: 700,
+    background: "white",
+  };
+
   return (
     <div className="App">
       <CssBaseline />
@@ -92,13 +105,99 @@ function App() {
         <Box m={3}>
           {pokemonArray.length === 2 && (
             <>
-              <PokemonCard me={0} pokemon={pokemonArray[0]} i={0} />
-              <PokemonCard me={1} pokemon={pokemonArray[1]} i={1} />
+              <div>
+                <div
+                  style={{
+                    ...statsContainer,
+                    borderRadius: "5px",
+                    bottom: 0,
+                    right: 0,
+
+                    boxShadow: "inset -12px -8px 40px #464646",
+                  }}
+                >
+                  <DataHolder me={0} pokemon={pokemonArray[0]} />
+                  <div
+                    style={{ position: "absolute", width: "90%", bottom: 0 }}
+                  >
+                    <LinearProgressWithLabel value={pokemonArray[0].health} />
+                  </div>
+                </div>
+                <PokemonCard
+                  attacking={true}
+                  me={0}
+                  pokemon={pokemonArray[0]}
+                  i={0}
+                />
+              </div>
+
+              <div>
+                <div
+                  style={{
+                    ...statsContainer,
+                    borderRadius: "5px",
+                    top: 0,
+                    left: 0,
+
+                    boxShadow: "inset -12px -8px 40px #464646",
+                  }}
+                >
+                  <DataHolder me={1} pokemon={pokemonArray[1]} />
+                  <div
+                    style={{ position: "absolute", width: "90%", bottom: 0 }}
+                  >
+                    <LinearProgressWithLabel value={pokemonArray[1].health} />
+                  </div>
+                </div>
+                <PokemonCard
+                  me={1}
+                  attacking={true}
+                  pokemon={pokemonArray[1]}
+                  i={1}
+                />
+              </div>
             </>
           )}
         </Box>
       </Container>
     </div>
+  );
+}
+
+function DataHolder(props) {
+  let style = {
+    position: "absolute",
+    padding: "10px",
+    top: 10,
+    background: "white",
+    borderRadius: "5px",
+    margin: "auto",
+    fontWeight: 800,
+  };
+  if (!props.me) {
+    style.right = 10;
+  } else {
+    style.left = 10;
+  }
+  return <Button style={style}>{props.pokemon.name}</Button>;
+}
+
+function LinearProgressWithLabel(props) {
+  return (
+    <Box display="flex" alignItems="center">
+      <Box width="100%" mr={1}>
+        <LinearProgress
+          style={{ height: 10 }}
+          variant="determinate"
+          {...props}
+        />
+      </Box>
+      <Box minWidth={60}>
+        <Typography variant="body1" color="textSecondary">{`${Math.round(
+          props.value
+        )}%`}</Typography>
+      </Box>
+    </Box>
   );
 }
 
