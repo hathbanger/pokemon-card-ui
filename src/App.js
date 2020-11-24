@@ -123,12 +123,7 @@ function App() {
                     <LinearProgressWithLabel value={pokemonArray[0].health} />
                   </div>
                 </div>
-                <PokemonCard
-                  attacking={true}
-                  me={0}
-                  pokemon={pokemonArray[0]}
-                  i={0}
-                />
+                <PokemonCard me={0} pokemon={pokemonArray[0]} i={0} />
               </div>
 
               <div>
@@ -149,12 +144,7 @@ function App() {
                     <LinearProgressWithLabel value={pokemonArray[1].health} />
                   </div>
                 </div>
-                <PokemonCard
-                  me={1}
-                  attacking={true}
-                  pokemon={pokemonArray[1]}
-                  i={1}
-                />
+                <PokemonCard me={1} pokemon={pokemonArray[1]} i={1} />
               </div>
             </>
           )}
