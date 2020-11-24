@@ -142,13 +142,12 @@ export default function PokemonCard(props) {
     <img
       style={props.me ? homeTeam : opponent}
       className={clsx(
+        classes.animatedItem,
         attacking
           ? props.me
             ? classes.attackOpponent
             : classes.receiveDamage
-          : !props.me
-          ? classes.opponentAttack
-          : classes.receiveDamage
+          : null
       )}
       src={
         pokemon &&

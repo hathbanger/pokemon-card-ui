@@ -163,6 +163,7 @@ function DataHolder(props) {
     borderRadius: "5px",
     margin: "auto",
     fontWeight: 800,
+    fontSize: "16px",
   };
   if (!props.me) {
     style.right = 10;
