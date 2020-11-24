@@ -8,6 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import {green, red, blue, yellow, brown, purple, grey, orange, blueGrey, pink} from '@material-ui/core/colors';
 
 const useStyles = makeStyles({
   root: {
@@ -22,6 +23,27 @@ export default function PokemonCard(props) {
   const classes = useStyles();
   const [pokemon, setPokemon] = React.useState(null)
   const [flavorText, setFlavorText] = React.useState("")
+
+
+  const typeObj = {
+    "fire": red[200], 
+    "water": blue[300], 
+    "grass": green[200], 
+    "electric": yellow[200], 
+    "normal": brown[100], 
+    "fighting": red[100], 
+    "poison": purple[200], 
+    "ground": brown[200], 
+    "rock": "#e0e0e0",
+    "bug": orange[100],
+    "psychic": purple[400],
+    "ghost": blueGrey[100],
+    "fairy": pink[100],
+    "ice": blue[200],
+    "dragon": orange[300],
+    "steel": blueGrey[400],
+    "flying": blue[100],
+  }
 
 
   React.useEffect(() => {
@@ -49,10 +71,15 @@ export default function PokemonCard(props) {
                 console.log(error);
             })
     }
-  console.log("pokemon card props", pokemon)
+    
+    React.useEffect(() => {
+      if(pokemon){
+        console.log("type", pokemon.types[0].type.name)
+      }
+    }, [pokemon])
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} style={{background: pokemon ? typeObj[pokemon.types[0].type.name] : "grey"}}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
@@ -65,10 +92,12 @@ export default function PokemonCard(props) {
           </Typography>
           <Typography variant="h6" color="textSecondary" component="p">
             {pokemon && pokemon.weight} lbs.
-
           </Typography>
           <Typography variant="subtitle1" color="textSecondary" component="p">
             {pokemon && pokemon.height} ft.
+          </Typography>
+          <Typography variant="subtitle2" color="textPrimary" component="p">
+            {pokemon && pokemon.types[0].type.name}
           </Typography>
           <Typography  variant="subtitle2" color="textSecondary" component="p">
             {flavorText}

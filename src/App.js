@@ -12,13 +12,17 @@ function App() {
   const [pokemonArray, setPokemonArray] = React.useState([])
 
   React.useEffect(() => {
-    fetchAllPokemon();
+    fetchAllPokemon(0);
   }, [])
 
-  const fetchAllPokemon = () => {
-      axios.get('https://pokeapi.co/api/v2/pokemon?limit=8')
+  const fetchAllPokemon = (offset) => {
+      axios.get('https://pokeapi.co/api/v2/pokemon?offset=' + offset)
         .then(function (response) {
-          setPokemonArray(response.data.results)
+          offset = offset + 100;
+          setPokemonArray(pArray => [...pArray, ...response.data.results]);
+          if(offset => 500){
+            fetchAllPokemon(offset)
+          }
         })
         .catch(function (error) {
           console.log(error);
